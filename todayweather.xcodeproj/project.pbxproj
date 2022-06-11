@@ -13,6 +13,7 @@
 		B78956BF2854CD43002B699D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B78956BD2854CD43002B699D /* Main.storyboard */; };
 		B78956C12854CD46002B699D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B78956C02854CD46002B699D /* Assets.xcassets */; };
 		B78956C42854CD46002B699D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B78956C22854CD46002B699D /* LaunchScreen.storyboard */; };
+		B7FE31322854E0A700DB7E4E /* WheatherInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7FE31312854E0A700DB7E4E /* WheatherInfo.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		B78956C02854CD46002B699D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B78956C32854CD46002B699D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B78956C52854CD46002B699D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B7FE31312854E0A700DB7E4E /* WheatherInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WheatherInfo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +65,7 @@
 				B78956C02854CD46002B699D /* Assets.xcassets */,
 				B78956C22854CD46002B699D /* LaunchScreen.storyboard */,
 				B78956C52854CD46002B699D /* Info.plist */,
+				B7FE31312854E0A700DB7E4E /* WheatherInfo.swift */,
 			);
 			path = todayweather;
 			sourceTree = "<group>";
@@ -139,6 +142,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B78956BC2854CD43002B699D /* ViewController.swift in Sources */,
+				B7FE31322854E0A700DB7E4E /* WheatherInfo.swift in Sources */,
 				B78956B82854CD43002B699D /* AppDelegate.swift in Sources */,
 				B78956BA2854CD43002B699D /* SceneDelegate.swift in Sources */,
 			);
