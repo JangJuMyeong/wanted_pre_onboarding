@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct WheatherInfo : Codable {
+struct WeatherInfo : Codable {
     
     var coord : Coord?
     var weather : [Weather]?
@@ -18,7 +18,7 @@ struct WheatherInfo : Codable {
     var clouds : Clouds?
     var unixTime : Int?
     var system : System?
-    var timeZone : String?
+    var timeZone : Int?
     var id : Int?
     var cityName : String?
     var cod : Int?
@@ -41,8 +41,8 @@ struct WheatherInfo : Codable {
     
     struct Coord : Codable {
         
-        var longitude : String?
-        var latitude : String?
+        var longitude : Float?
+        var latitude : Float?
         
         enum CodingKeys : String, CodingKey{
             case longitude = "lon"
@@ -52,7 +52,7 @@ struct WheatherInfo : Codable {
     
     struct Weather : Codable {
         
-        var id : String?
+        var id : Int?
         var weatherGroup : String?
         var weatherDescription : String?
         var icon : String?
