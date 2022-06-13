@@ -58,8 +58,11 @@ class NaverLocationAPIManger {
                     if let results = json["results"] as? [Any]{
                         if let data = results[0] as? [String : Any]{
                             if let region = data["region"] as? [String : Any] {
-                                if let area = region["area1"] as? [String : Any] {
-                                    if let location = area["alias"] as? String {
+                                if let area = region["area2"] as? [String : Any] {
+                                    if var location = area["name"] as? String {
+                                        if location.contains("시") {
+                                            location = String(location.dropLast())
+                                        }
                                         handler(.success(location))
                                     }
                                 }
