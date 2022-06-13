@@ -62,9 +62,21 @@ class OnpenWeatherAPIManger {
                     do {
                         //Json 데이터 Decode
                         var weatherInfo = try JSONDecoder().decode(WeatherInfo.self, from: safeData)
-                        //도시 이름 변경
-                        if let cityName = weatherInfo.cityName {
+                        
+                        if let cityName = weatherInfo.cityName, let weatherIcon = weatherInfo.weather?[0].icon{
+                            //도시 이름 변경
                             weatherInfo.cityName = self.ChangeCityName(cityName: cityName)
+                            //날씨 아이콘 다운로드 / 캐싱된 이미지 가져오기
+                            if let downloadURL = URL(string: self.imageDownloadURL + "\(weatherIcon).png") {
+                                self.downloadImage(url: downloadURL) { result in
+                                    switch result {
+                                    case .success(let image) :
+                                        weatherInfo.weatherImage = image
+                                    case .failure(let error) :
+                                        print("Download fail", error)
+                                    }
+                                }
+                            }
                         }
                         WeatherInfos.append(weatherInfo)
                         // 도시 정보 수신 완료시
@@ -124,7 +136,21 @@ class OnpenWeatherAPIManger {
             if let safeData = data {
                 do {
                     //Json 데이터 Decode
-                    let weatherInfo = try JSONDecoder().decode(WeatherInfo.self, from: safeData)
+                    var weatherInfo = try JSONDecoder().decode(WeatherInfo.self, from: safeData)
+                    //날씨 아이콘 다운로드 / 캐싱된 이미지 가져오기
+                    if let weatherIcon = weatherInfo.weather?[0].icon {
+                        if let downloadURL = URL(string: self.imageDownloadURL + "\(weatherIcon).png") {
+                            self.downloadImage(url: downloadURL) { result in
+                                switch result {
+                                case .success(let image) :
+                                    weatherInfo.weatherImage = image
+                                case .failure(let error) :
+                                    print("Download fail", error)
+                                }
+                            }
+                        }
+                    }
+                    
                     handler(.success(weatherInfo))
                 } catch {
                     print(error.localizedDescription)
@@ -163,7 +189,6 @@ class OnpenWeatherAPIManger {
                 {
                     print("Fail to download image")
                     return
-                    
                 }
                 
                 Cache.imageCache.setObject(image, forKey: url.absoluteString as NSString)

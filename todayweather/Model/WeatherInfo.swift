@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 struct WeatherInfo : Codable {
     
@@ -22,6 +23,7 @@ struct WeatherInfo : Codable {
     var id : Int?
     var cityName : String?
     var cod : Int?
+    var weatherImage : UIImage?
     
     enum CodingKeys : String, CodingKey{
         case coord
