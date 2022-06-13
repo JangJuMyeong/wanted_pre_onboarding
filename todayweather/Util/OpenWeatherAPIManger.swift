@@ -13,7 +13,7 @@ class OnpenWeatherAPIManger {
     static let shared = OnpenWeatherAPIManger()
     
     private let baseURL : String = "https://api.openweathermap.org/data/2.5/weather"
-    private let imageDownloadURL : String = "http://openweathermap.org/img/w/"
+    private let imageDownloadURL : String = "https://openweathermap.org/img/wn/"
     private let clientSecret : String = "b663f0f76d1e95b7ab5bb0cfafeddc03"
     private let cityIds = [ 1842616,1841808,1842225,1842025,1835327,1835235,1841066,1838519,1835895,1835847,1836553,1835553,1835648,1833742,1843491,1845457,1846266,1845759,1845604,1845136 ]
     
@@ -63,20 +63,9 @@ class OnpenWeatherAPIManger {
                         //Json 데이터 Decode
                         var weatherInfo = try JSONDecoder().decode(WeatherInfo.self, from: safeData)
                         
-                        if let cityName = weatherInfo.cityName, let weatherIcon = weatherInfo.weather?[0].icon{
+                        if let cityName = weatherInfo.cityName {
                             //도시 이름 변경
                             weatherInfo.cityName = self.ChangeCityName(cityName: cityName)
-                            //날씨 아이콘 다운로드 / 캐싱된 이미지 가져오기
-                            if let downloadURL = URL(string: self.imageDownloadURL + "\(weatherIcon).png") {
-                                self.downloadImage(url: downloadURL) { result in
-                                    switch result {
-                                    case .success(let image) :
-                                        weatherInfo.weatherImage = image
-                                    case .failure(let error) :
-                                        print("Download fail", error)
-                                    }
-                                }
-                            }
                         }
                         WeatherInfos.append(weatherInfo)
                         // 도시 정보 수신 완료시
@@ -136,21 +125,7 @@ class OnpenWeatherAPIManger {
             if let safeData = data {
                 do {
                     //Json 데이터 Decode
-                    var weatherInfo = try JSONDecoder().decode(WeatherInfo.self, from: safeData)
-                    //날씨 아이콘 다운로드 / 캐싱된 이미지 가져오기
-                    if let weatherIcon = weatherInfo.weather?[0].icon {
-                        if let downloadURL = URL(string: self.imageDownloadURL + "\(weatherIcon).png") {
-                            self.downloadImage(url: downloadURL) { result in
-                                switch result {
-                                case .success(let image) :
-                                    weatherInfo.weatherImage = image
-                                case .failure(let error) :
-                                    print("Download fail", error)
-                                }
-                            }
-                        }
-                    }
-                    
+                    let weatherInfo = try JSONDecoder().decode(WeatherInfo.self, from: safeData)
                     handler(.success(weatherInfo))
                 } catch {
                     print(error.localizedDescription)
@@ -163,12 +138,17 @@ class OnpenWeatherAPIManger {
 
     
     //이미지 다운로드
-    func downloadImage(url : URL ,compltion: @escaping (Result<UIImage, Error>) -> ()) {
-        if let cacheImage = Cache.imageCache.object(forKey: url.absoluteString as NSString){
+    func downloadImage(imageIcon : String ,compltion: @escaping (Result<UIImage, Error>) -> ()) {
+        
+        guard let imageDownloadURL = URL(string: imageDownloadURL + "\(imageIcon)@2x.png") else { return }
+        
+        if let cacheImage = Cache.imageCache.object(forKey: imageDownloadURL.absoluteString as NSString){
             compltion(.success(cacheImage))
             return
         } else {
-            var request = URLRequest(url: url)
+            
+            
+            var request = URLRequest(url: imageDownloadURL)
             request.httpMethod = "Get"
             
             URLSession.shared.dataTask(with: request) { data, response, error in
@@ -191,7 +171,7 @@ class OnpenWeatherAPIManger {
                     return
                 }
                 
-                Cache.imageCache.setObject(image, forKey: url.absoluteString as NSString)
+                Cache.imageCache.setObject(image, forKey: imageDownloadURL.absoluteString as NSString)
                 compltion(.success(image))
             }.resume()
         }
