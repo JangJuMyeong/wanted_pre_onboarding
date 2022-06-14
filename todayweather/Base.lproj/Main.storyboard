@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="retina6_7" orientation="portrait" appearance="light"/>
+    <device id="retina3_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -14,33 +13,33 @@
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="WeatherViewController" customModule="todayweather" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="현재 위치 정보를 불러오고 있습니다." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kUP-hJ-mcR">
-                                <rect key="frame" x="92.666666666666671" y="302" width="242.66666666666663" height="20.333333333333314"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <rect key="frame" x="52.5" y="74" width="215" height="18"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s9j-hP-18o">
-                                <rect key="frame" x="15" y="54" width="398" height="31"/>
+                                <rect key="frame" x="15" y="10" width="290" height="31"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" text="최근 조회 시간 - 12:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ffr-Wi-66y">
-                                        <rect key="frame" x="0.0" y="0.0" width="337.66666666666669" height="31"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="229.5" height="31"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kDT-pX-CuO">
-                                        <rect key="frame" x="337.66666666666669" y="0.0" width="60.333333333333314" height="31"/>
+                                        <rect key="frame" x="229.5" y="0.0" width="60.5" height="31"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="재조회"/>
                                     </button>
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="ST8-jk-t1t">
-                                <rect key="frame" x="164" y="302" width="100" height="232.33333333333337"/>
+                                <rect key="frame" x="110" y="74" width="100" height="232.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="지역" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8qj-0a-Pfr">
                                         <rect key="frame" x="0.0" y="0.0" width="100" height="36"/>
@@ -49,26 +48,26 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="현재 날씨" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a4D-VX-I6R">
-                                        <rect key="frame" x="0.0" y="46" width="100" height="20.333333333333329"/>
+                                        <rect key="frame" x="0.0" y="46" width="100" height="20.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="keO-k2-Spo">
-                                        <rect key="frame" x="0.0" y="76.333333333333314" width="100" height="100"/>
+                                        <rect key="frame" x="0.0" y="76.5" width="100" height="100"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="100" id="2ya-G0-NEn"/>
                                             <constraint firstAttribute="width" constant="100" id="hj0-pY-mSk"/>
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="현재기온 - 30" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kbA-zm-eIG">
-                                        <rect key="frame" x="0.0" y="186.33333333333331" width="100" height="18"/>
+                                        <rect key="frame" x="0.0" y="186.5" width="100" height="18"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="현재 습도 - 50" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xb3-uo-8ua">
-                                        <rect key="frame" x="0.0" y="214.33333333333337" width="100" height="18"/>
+                                        <rect key="frame" x="0.0" y="214.5" width="100" height="18"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -80,7 +79,7 @@
                                 </constraints>
                             </stackView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="a6a-o1-MuT">
-                                <rect key="frame" x="0.0" y="772" width="428" height="120"/>
+                                <rect key="frame" x="0.0" y="360" width="320" height="120"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="120" id="Wrj-qP-YfU"/>
@@ -107,7 +106,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dYn-9x-0yL">
-                                                    <rect key="frame" x="42.333333333333329" y="95" width="35.333333333333329" height="17"/>
+                                                    <rect key="frame" x="42.5" y="95" width="35.5" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
@@ -138,7 +137,7 @@
                                 </cells>
                             </collectionView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="주요 도시 날씨 정보" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uQ2-0j-evS">
-                                <rect key="frame" x="20" y="741.66666666666663" width="131" height="20.333333333333371"/>
+                                <rect key="frame" x="20" y="329.5" width="131" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -162,6 +161,7 @@
                             <constraint firstItem="s9j-hP-18o" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="tIV-a8-FZm"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="vG6-Gs-xVc"/>
                     <connections>
                         <outlet property="lastGetWeahterTimeLabel" destination="ffr-Wi-66y" id="RhD-Gv-5NU"/>
                         <outlet property="loadingTextLabel" destination="kUP-hJ-mcR" id="tVo-2l-V6X"/>
@@ -180,22 +180,134 @@
         <!--Detail Weather View Controller-->
         <scene sceneID="ObE-VT-Sk8">
             <objects>
-                <viewController id="ebl-wt-UQs" customClass="DetailWeatherViewController" customModule="todayweather" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DetailWeatherViewController" id="ebl-wt-UQs" customClass="DetailWeatherViewController" customModule="todayweather" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="LkT-fW-1bY">
-                        <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="날씨 설명" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NZv-IR-Yll">
+                                <rect key="frame" x="128.5" y="149.5" width="63.5" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="tYf-mp-YC6">
+                                <rect key="frame" x="100" y="180" width="120" height="120"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="120" id="8gK-Zc-QxF"/>
+                                    <constraint firstAttribute="height" constant="120" id="GOG-in-ZIl"/>
+                                </constraints>
+                            </imageView>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="XBN-9K-kgI">
+                                <rect key="frame" x="0.0" y="310" width="320" height="20.5"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="현재 기온" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oHk-xO-m20">
+                                        <rect key="frame" x="0.0" y="0.0" width="155" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="체감 기온" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RK0-lh-Kw2">
+                                        <rect key="frame" x="165" y="0.0" width="155" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="AHV-kF-fcR">
+                                <rect key="frame" x="0.0" y="340.5" width="320" height="20.5"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="최저 기온" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iq0-DF-DDj">
+                                        <rect key="frame" x="0.0" y="0.0" width="155" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="최고 기온" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ojM-BF-Lcp">
+                                        <rect key="frame" x="165" y="0.0" width="155" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="lst-98-mpO">
+                                <rect key="frame" x="0.0" y="371" width="320" height="20.5"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="현재 습도" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oZb-4I-LEg">
+                                        <rect key="frame" x="0.0" y="0.0" width="155" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="풍속" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hhA-bv-FL3">
+                                        <rect key="frame" x="165" y="0.0" width="155" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="도시 이름" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2W2-QW-cgH">
+                                <rect key="frame" x="114" y="109.5" width="92" height="30"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
+                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="날씨 상세 정보" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0AC-Ko-n0K">
+                                <rect key="frame" x="103.5" y="30" width="113" height="24"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
+                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="기압" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sL6-nr-7HH">
+                                <rect key="frame" x="145.5" y="401.5" width="29.5" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="J68-5L-0Jz"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="XBN-9K-kgI" firstAttribute="leading" secondItem="J68-5L-0Jz" secondAttribute="leading" id="0dp-sJ-Gid"/>
+                            <constraint firstItem="NZv-IR-Yll" firstAttribute="top" secondItem="2W2-QW-cgH" secondAttribute="bottom" constant="10" id="49d-XP-oKs"/>
+                            <constraint firstItem="sL6-nr-7HH" firstAttribute="centerX" secondItem="J68-5L-0Jz" secondAttribute="centerX" id="5Rq-jl-3qc"/>
+                            <constraint firstItem="tYf-mp-YC6" firstAttribute="top" secondItem="NZv-IR-Yll" secondAttribute="bottom" constant="10" id="9Zf-Ar-50V"/>
+                            <constraint firstItem="0AC-Ko-n0K" firstAttribute="top" secondItem="J68-5L-0Jz" secondAttribute="top" constant="30" id="C1f-Lq-Yuw"/>
+                            <constraint firstItem="0AC-Ko-n0K" firstAttribute="centerX" secondItem="J68-5L-0Jz" secondAttribute="centerX" id="GIf-NS-Gsx"/>
+                            <constraint firstItem="lst-98-mpO" firstAttribute="top" secondItem="AHV-kF-fcR" secondAttribute="bottom" constant="10" id="IDV-xx-Zqs"/>
+                            <constraint firstItem="lst-98-mpO" firstAttribute="leading" secondItem="J68-5L-0Jz" secondAttribute="leading" id="IVP-Au-zDI"/>
+                            <constraint firstItem="J68-5L-0Jz" firstAttribute="trailing" secondItem="XBN-9K-kgI" secondAttribute="trailing" id="JoX-Bd-AGD"/>
+                            <constraint firstItem="J68-5L-0Jz" firstAttribute="trailing" secondItem="AHV-kF-fcR" secondAttribute="trailing" id="P6U-e2-B7R"/>
+                            <constraint firstItem="J68-5L-0Jz" firstAttribute="trailing" secondItem="lst-98-mpO" secondAttribute="trailing" id="PuY-0j-nRD"/>
+                            <constraint firstItem="AHV-kF-fcR" firstAttribute="top" secondItem="XBN-9K-kgI" secondAttribute="bottom" constant="10" id="Qup-nA-qBx"/>
+                            <constraint firstItem="tYf-mp-YC6" firstAttribute="centerX" secondItem="J68-5L-0Jz" secondAttribute="centerX" id="XIs-hE-AEB"/>
+                            <constraint firstItem="tYf-mp-YC6" firstAttribute="centerY" secondItem="J68-5L-0Jz" secondAttribute="centerY" id="YOb-8v-f20"/>
+                            <constraint firstItem="XBN-9K-kgI" firstAttribute="top" secondItem="tYf-mp-YC6" secondAttribute="bottom" constant="10" id="aGV-9Y-qGf"/>
+                            <constraint firstItem="2W2-QW-cgH" firstAttribute="centerX" secondItem="J68-5L-0Jz" secondAttribute="centerX" id="gmk-Im-R3n"/>
+                            <constraint firstItem="AHV-kF-fcR" firstAttribute="leading" secondItem="J68-5L-0Jz" secondAttribute="leading" id="mPR-RE-3pi"/>
+                            <constraint firstItem="sL6-nr-7HH" firstAttribute="top" secondItem="lst-98-mpO" secondAttribute="bottom" constant="10" id="p5l-Rb-K9t"/>
+                            <constraint firstItem="NZv-IR-Yll" firstAttribute="centerX" secondItem="J68-5L-0Jz" secondAttribute="centerX" id="wuQ-wT-YUm"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="cityCurrentTempLabel" destination="oHk-xO-m20" id="OXM-X7-LSx"/>
+                        <outlet property="cityHumidityLabel" destination="oZb-4I-LEg" id="Fz9-hK-P4P"/>
+                        <outlet property="cityMaxTempLabel" destination="ojM-BF-Lcp" id="BJK-2C-7lq"/>
+                        <outlet property="cityMinTempLabel" destination="iq0-DF-DDj" id="clz-1V-cmB"/>
+                        <outlet property="cityNameLabel" destination="2W2-QW-cgH" id="iFF-Xc-HxS"/>
+                        <outlet property="cityPressureLabel" destination="sL6-nr-7HH" id="5pn-jx-qsT"/>
+                        <outlet property="citySensibleTempLabel" destination="RK0-lh-Kw2" id="efE-bv-SxE"/>
+                        <outlet property="cityWeatherImage" destination="tYf-mp-YC6" id="a86-bp-ahE"/>
+                        <outlet property="cityWeatherLabel" destination="NZv-IR-Yll" id="wDl-Tc-GdF"/>
+                        <outlet property="cityWindLabel" destination="hhA-bv-FL3" id="W3C-Gk-AN9"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fj9-M8-ycJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="861" y="68"/>
+            <point key="canvasLocation" x="860.74766355140184" y="67.386609071274307"/>
         </scene>
     </scenes>
-    <resources>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-    </resources>
 </document>

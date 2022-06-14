@@ -12,7 +12,6 @@ class WeatherViewController: UIViewController {
     
     var locationManger : CLLocationManager!
     var weatehrInfos : [WeatherInfo]?
-    var userLocationInfo : UserLocationInfo?
     
     @IBOutlet weak var lastGetWeahterTimeLabel: UILabel!
     @IBOutlet weak var userLocationLabel: UILabel!
@@ -21,6 +20,7 @@ class WeatherViewController: UIViewController {
     @IBOutlet weak var userLocationTempLabel: UILabel!
     @IBOutlet weak var userLocationHumidityLabel: UILabel!
     @IBOutlet weak var loadingTextLabel: UILabel!
+    @IBOutlet weak var collectionViewLoadingTextLabel: UILabel!
     @IBOutlet weak var weatehrInfosCollectionView: UICollectionView!
     
     
@@ -34,6 +34,8 @@ class WeatherViewController: UIViewController {
         weatehrInfosCollectionView.delegate = self
         weatehrInfosCollectionView.dataSource = self
         weatehrInfosCollectionView.backgroundColor = UIColor.white
+        let layout = weatehrInfosCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
+        layout.scrollDirection = .horizontal
         
         lastGetWeahterTimeLabel.text = "최근 조회 시간 - \(getCurrentTime())"
         userLocationLabel.text = ""
@@ -42,19 +44,7 @@ class WeatherViewController: UIViewController {
         userLocationHumidityLabel.text = ""
         
         getLocationUsagePermission()
-        
-        //주요도시 날씨 정보 가져오기
-        OnpenWeatherAPIManger.shared.getMajorWeatherInfos { result in
-            switch result {
-            case .success(let weatherInfos) :
-                self.weatehrInfos = weatherInfos
-                DispatchQueue.main.async {
-                    self.weatehrInfosCollectionView.reloadData()
-                }
-            case .failure(let weatherInfos):
-                print("Fail",weatherInfos)
-            }
-        }
+        getMajorWeatherInfos()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -72,7 +62,9 @@ class WeatherViewController: UIViewController {
         }
         
     }
+//MARK: - Function
     
+    //현재 시간 가져오기
     func getCurrentTime() -> String {
         
         let formatter = DateFormatter()
@@ -82,12 +74,80 @@ class WeatherViewController: UIViewController {
        
         return currentDateTime
     }
+    
+    //유저 현 위치 및 날씨 정보 가져오기
+    private func getUserLocationWeatherInfo() {
+        
+        locationManger.startUpdatingLocation()
+        
+        if let coor = locationManger.location?.coordinate {
+            
+            OnpenWeatherAPIManger.shared.getUserLoactionWeatherInfo(longitude: coor.longitude, latitude: coor.latitude) { result in
+                switch result {
+                case .success(let weatherInfo) :
+                    
+                        if let description = weatherInfo.weather?[0].weatherDescription,
+                           let temp = weatherInfo.detailWeather?.currentTemperature,
+                           let humidity = weatherInfo.detailWeather?.humidity,
+                           let imageIcon = weatherInfo.weather?[0].icon {
+                            //이미지 다운로드
+                            OnpenWeatherAPIManger.shared.downloadImage(imageIcon: imageIcon) { result in
+                                switch result {
+                                case .success(let image) :
+                                    // 현위치 주소 정보 가져오기
+                                    NaverLocationAPIManger.shared.getLocation(longitude: coor.longitude, latitude: coor.latitude) { result in
+                                        switch result {
+                                        case.success(let location):
+                                            DispatchQueue.main.async() {
+                                                self.loadingTextLabel.isHidden = true
+                                                self.userLocationLabel.text = location
+                                                self.userLocationWeatherLabel.text = description
+                                                self.userLocationTempLabel.text = "현재 온도 : \(Int(temp))°"
+                                                self.userLocationHumidityLabel.text = "현재 습도 : \(humidity)%"
+                                                self.userLocationWeatherImage.image = image
+                                            }
+                                        case.failure(let error):
+                                            print("Get User Location Fail",error)
+                                        }
+                                    }
+                                case .failure(let error) :
+                                    print("Download Image Failt", error)
+                                }
+                            }
+                            
+                    }else {
+                        print("안됨")
+                    }
+                    
+                case .failure(let error) :
+                    print("Get User WeatherInfo Fail", error)
+                }
+            }
+        }
+    }
+    
+    //주요 도시 날씨 정보 가져오기
+    private func  getMajorWeatherInfos() {
+        OnpenWeatherAPIManger.shared.getMajorWeatherInfos { result in
+            switch result {
+            case .success(let weatherInfos) :
+                self.weatehrInfos = weatherInfos
+                DispatchQueue.main.async {
+                    self.weatehrInfosCollectionView.reloadData()
+                }
+            case .failure(let weatherInfos):
+                print("Fail",weatherInfos)
+            }
+        }
+    }
+    
 }
 
 //MARK: - CLLocationManagerDelegate
 
 extension WeatherViewController : CLLocationManagerDelegate {
     
+    //유저 위치정보 권한 설정
     func getLocationUsagePermission() {
         
         self.locationManger.requestWhenInUseAuthorization()
@@ -99,52 +159,7 @@ extension WeatherViewController : CLLocationManagerDelegate {
         switch status {
         case .authorizedAlways, .authorizedWhenInUse:
             print("GPS 권한 설정됨")
-            locationManger.startUpdatingLocation()
-            
-            if let coor = locationManger.location?.coordinate {
-                
-                OnpenWeatherAPIManger.shared.getUserLoactionWeatherInfo(longitude: coor.longitude, latitude: coor.latitude) { result in
-                    switch result {
-                    case .success(let weatherInfo) :
-                        
-                            if let description = weatherInfo.weather?[0].weatherDescription,
-                               let temp = weatherInfo.detailWeather?.currentTemperature,
-                               let humidity = weatherInfo.detailWeather?.humidity,
-                               let imageIcon = weatherInfo.weather?[0].icon {
-                                //이미지 다운로드
-                                OnpenWeatherAPIManger.shared.downloadImage(imageIcon: imageIcon) { result in
-                                    switch result {
-                                    case .success(let image) :
-                                        // 현위치 주소 정보 가져오기
-                                        NaverLocationAPIManger.shared.getLocation(longitude: coor.longitude, latitude: coor.latitude) { result in
-                                            switch result {
-                                            case.success(let location):
-                                                DispatchQueue.main.async() {
-                                                    self.loadingTextLabel.isHidden = true
-                                                    self.userLocationLabel.text = location
-                                                    self.userLocationWeatherLabel.text = description
-                                                    self.userLocationTempLabel.text = "현재 온도 : \(Int(temp))°"
-                                                    self.userLocationHumidityLabel.text = "현재 습도 : \(humidity)%"
-                                                    self.userLocationWeatherImage.image = image
-                                                }
-                                            case.failure(let error):
-                                                print("Get User Location Fail",error)
-                                            }
-                                        }
-                                    case .failure(let error) :
-                                        print("Download Image Failt", error)
-                                    }
-                                }
-                                
-                        }else {
-                            print("안됨")
-                        }
-                        
-                    case .failure(let error) :
-                        print("Get User WeatherInfo Fail", error)
-                    }
-                }
-            }
+            getUserLocationWeatherInfo()
         case .restricted, .notDetermined:
             print("GPS 권한 설정되지 않음")
             getLocationUsagePermission()
@@ -156,6 +171,7 @@ extension WeatherViewController : CLLocationManagerDelegate {
         }
     }
     
+    //위치정보 확인 불가 알림
     func showPermissionAlert() {
         
         self.loadingTextLabel.text = "현재 위치정보를 불러오는데 실패 하였습니다."
@@ -212,3 +228,19 @@ extension WeatherViewController : UICollectionViewDelegateFlowLayout {
     }
     
 }
+
+//MARK: - UICollectionViewDelegate
+extension WeatherViewController : UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let vc =  storyboard?.instantiateViewController(identifier: "DetailWeatherViewController") as? DetailWeatherViewController else
+               { return }
+        
+        if let selectWeatherInfo = weatehrInfos?[indexPath.row] {
+            
+            vc.weatherInfo = selectWeatherInfo
+        }
+        
+        self.present(vc, animated: true)
+    }
+}
+

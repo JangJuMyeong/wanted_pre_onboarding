@@ -143,10 +143,10 @@ class OnpenWeatherAPIManger {
         guard let imageDownloadURL = URL(string: imageDownloadURL + "\(imageIcon)@2x.png") else { return }
         
         if let cacheImage = Cache.imageCache.object(forKey: imageDownloadURL.absoluteString as NSString){
+            print("It's have cacheImage")
             compltion(.success(cacheImage))
             return
         } else {
-            
             
             var request = URLRequest(url: imageDownloadURL)
             request.httpMethod = "Get"
