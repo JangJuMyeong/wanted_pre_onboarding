@@ -12,6 +12,7 @@ class WeatherViewController: UIViewController {
     
     var locationManger : CLLocationManager!
     var weatehrInfos : [WeatherInfo]?
+    var userLocationInfo : UserLocationInfo?
     
     @IBOutlet weak var lastGetWeahterTimeLabel: UILabel!
     @IBOutlet weak var userLocationLabel: UILabel!
@@ -20,8 +21,8 @@ class WeatherViewController: UIViewController {
     @IBOutlet weak var userLocationTempLabel: UILabel!
     @IBOutlet weak var userLocationHumidityLabel: UILabel!
     @IBOutlet weak var loadingTextLabel: UILabel!
-    @IBOutlet weak var collectionViewLoadingTextLabel: UILabel!
     @IBOutlet weak var weatehrInfosCollectionView: UICollectionView!
+    @IBOutlet weak var userLocationInfoStackView: UIStackView!
     
     
     override func viewDidLoad() {
@@ -45,6 +46,7 @@ class WeatherViewController: UIViewController {
         
         getLocationUsagePermission()
         getMajorWeatherInfos()
+        registStackViewClickedEvent()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -62,6 +64,12 @@ class WeatherViewController: UIViewController {
         }
         
     }
+    
+    
+    @IBAction func refreshWeatherInfo(_ sender: Any) {
+        refreshWeatherInfo()
+    }
+    
 //MARK: - Function
     
     //현재 시간 가져오기
@@ -84,7 +92,7 @@ class WeatherViewController: UIViewController {
             
             OnpenWeatherAPIManger.shared.getUserLoactionWeatherInfo(longitude: coor.longitude, latitude: coor.latitude) { result in
                 switch result {
-                case .success(let weatherInfo) :
+                case .success(var weatherInfo) :
                     
                         if let description = weatherInfo.weather?[0].weatherDescription,
                            let temp = weatherInfo.detailWeather?.currentTemperature,
@@ -105,6 +113,8 @@ class WeatherViewController: UIViewController {
                                                 self.userLocationTempLabel.text = "현재 온도 : \(Int(temp))°"
                                                 self.userLocationHumidityLabel.text = "현재 습도 : \(humidity)%"
                                                 self.userLocationWeatherImage.image = image
+                                                weatherInfo.cityName = location
+                                                self.userLocationInfo = UserLocationInfo(userLocation: location, userWeatehrInfo: weatherInfo)
                                             }
                                         case.failure(let error):
                                             print("Get User Location Fail",error)
@@ -141,6 +151,32 @@ class WeatherViewController: UIViewController {
         }
     }
     
+    //날씨 정보 재조회
+    private func refreshWeatherInfo() {
+        getUserLocationWeatherInfo()
+        getMajorWeatherInfos()
+        DispatchQueue.main.async {
+            self.lastGetWeahterTimeLabel.text = "최근 조회 시간 - \(self.getCurrentTime())"
+        }
+    }
+    
+    //스택뷰 클릭 이벤트 등록
+    private func registStackViewClickedEvent() {
+        userLocationInfoStackView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(stackviewClicked)))
+    }
+    
+    //스택뷰 클릭 이벤트 처리
+    @objc func stackviewClicked() {
+        guard let vc =  storyboard?.instantiateViewController(identifier: "DetailWeatherViewController") as? DetailWeatherViewController else
+               { return }
+        
+        if let WeatherInfo = userLocationInfo?.userWeatehrInfo {
+            
+            vc.weatherInfo = WeatherInfo
+        }
+        
+        self.present(vc, animated: true)
+    }
 }
 
 //MARK: - CLLocationManagerDelegate
