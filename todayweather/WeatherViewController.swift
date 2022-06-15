@@ -14,6 +14,11 @@ class WeatherViewController: UIViewController {
     var locationManger : CLLocationManager!
     var weatehrInfos : WeatherInfoListViewModel?
     var userLocationInfo : WeatherInfoViewModel?
+    private let loadingView: LoadingView = {
+        let view = LoadingView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
     
     @IBOutlet weak var lastGetWeahterTimeLabel: UILabel!
     @IBOutlet weak var userLocationLabel: UILabel!
@@ -48,13 +53,24 @@ class WeatherViewController: UIViewController {
         
     }
     
+    
     @IBAction func refreshWeatherInfo(_ sender: Any) {
         refreshWeatherInfo()
     }
     
-//MARK: - Function
+    //MARK: - Function
     
     func initView() {
+        
+        self.loadingView.isLoading = true
+        self.view.addSubview(self.loadingView)
+        
+        NSLayoutConstraint.activate([
+            self.loadingView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
+            self.loadingView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
+            self.loadingView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            self.loadingView.topAnchor.constraint(equalTo: self.view.topAnchor),
+        ])
         
         locationManger = CLLocationManager()
         locationManger.delegate = self
@@ -85,7 +101,7 @@ class WeatherViewController: UIViewController {
         formatter.locale = Locale(identifier: "ko_kr")
         formatter.dateFormat = "a hh:mm"
         let currentDateTime = formatter.string(from: Date())
-       
+        
         return currentDateTime
     }
     
@@ -128,6 +144,7 @@ class WeatherViewController: UIViewController {
                 self.weatehrInfos = WeatherInfoListViewModel(weatehrInfoArray: weatherInfos)
                 DispatchQueue.main.async {
                     self.weatehrInfosCollectionView.reloadData()
+                    self.loadingView.isLoading = false
                 }
             case .failure(let weatherInfos):
                 print("Fail",weatherInfos)
@@ -162,7 +179,7 @@ class WeatherViewController: UIViewController {
     @objc func stackviewClicked() {
         
         guard let vc =  storyboard?.instantiateViewController(identifier: "DetailWeatherViewController") as? DetailWeatherViewController else
-               { return }
+        { return }
         
         if let WeatherInfo = userLocationInfo {
             vc.weatherInfo = WeatherInfo
@@ -181,7 +198,7 @@ extension WeatherViewController : CLLocationManagerDelegate {
     func getLocationUsagePermission() {
         
         self.locationManger.requestWhenInUseAuthorization()
-
+        
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
@@ -255,7 +272,7 @@ extension WeatherViewController : UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         guard let vc =  storyboard?.instantiateViewController(identifier: "DetailWeatherViewController") as? DetailWeatherViewController else
-               { return }
+        { return }
         
         if let selectWeatherInfo = weatehrInfos?.weatherInfos[indexPath.row] {
             vc.weatherInfo = selectWeatherInfo
