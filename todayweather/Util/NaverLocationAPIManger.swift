@@ -55,6 +55,15 @@ class NaverLocationAPIManger {
             //Json객체에서 정보 가져오기
             if let safeData = data {
                 if let json = try? JSONSerialization.jsonObject(with: safeData, options: []) as? [String : Any] {
+                    if let status = json["status"] as? [String : Any] {
+                        if let message = status["name"] as? String {
+                            if message == "no results" {
+                                handler(.success("확인 불가"))
+                                return
+                            }
+                        }
+                    }
+                    
                     if let results = json["results"] as? [Any]{
                         if let data = results[0] as? [String : Any]{
                             if let region = data["region"] as? [String : Any] {
