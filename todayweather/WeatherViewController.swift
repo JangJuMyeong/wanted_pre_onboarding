@@ -8,11 +8,12 @@
 import UIKit
 import CoreLocation
 
+
 class WeatherViewController: UIViewController {
     
     var locationManger : CLLocationManager!
-    var weatehrInfos : [WeatherInfo]?
-    var userLocationInfo : UserLocationInfo?
+    var weatehrInfos : WeatherInfoListViewModel?
+    var userLocationInfo : WeatherInfoViewModel?
     
     @IBOutlet weak var lastGetWeahterTimeLabel: UILabel!
     @IBOutlet weak var userLocationLabel: UILabel!
@@ -24,9 +25,36 @@ class WeatherViewController: UIViewController {
     @IBOutlet weak var weatehrInfosCollectionView: UICollectionView!
     @IBOutlet weak var userLocationInfoStackView: UIStackView!
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        initView()
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
+        let authorizationStatus: CLAuthorizationStatus
+        
+        if #available(iOS 14, *) {
+            authorizationStatus = locationManger.authorizationStatus
+        } else {
+            authorizationStatus = CLLocationManager.authorizationStatus()
+        }
+        
+        if authorizationStatus == .denied {
+            showPermissionAlert()
+        }
+        
+    }
+    
+    @IBAction func refreshWeatherInfo(_ sender: Any) {
+        refreshWeatherInfo()
+    }
+    
+//MARK: - Function
+    
+    func initView() {
         
         locationManger = CLLocationManager()
         locationManger.delegate = self
@@ -47,30 +75,8 @@ class WeatherViewController: UIViewController {
         getLocationUsagePermission()
         getMajorWeatherInfos()
         registStackViewClickedEvent()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        
-        let authorizationStatus: CLAuthorizationStatus
-        
-        if #available(iOS 14, *) {
-            authorizationStatus = locationManger.authorizationStatus
-        } else {
-            authorizationStatus = CLLocationManager.authorizationStatus()
-        }
-        
-        if authorizationStatus == .denied {
-            showPermissionAlert()
-        }
         
     }
-    
-    
-    @IBAction func refreshWeatherInfo(_ sender: Any) {
-        refreshWeatherInfo()
-    }
-    
-//MARK: - Function
     
     //현재 시간 가져오기
     func getCurrentTime() -> String {
@@ -93,42 +99,20 @@ class WeatherViewController: UIViewController {
             OnpenWeatherAPIManger.shared.getUserLoactionWeatherInfo(longitude: coor.longitude, latitude: coor.latitude) { result in
                 switch result {
                 case .success(var weatherInfo) :
-                    
-                        if let description = weatherInfo.weather?[0].weatherDescription,
-                           let temp = weatherInfo.detailWeather?.currentTemperature,
-                           let humidity = weatherInfo.detailWeather?.humidity,
-                           let imageIcon = weatherInfo.weather?[0].icon {
-                            //이미지 다운로드
-                            OnpenWeatherAPIManger.shared.downloadImage(imageIcon: imageIcon) { result in
-                                switch result {
-                                case .success(let image) :
-                                    // 현위치 주소 정보 가져오기
-                                    NaverLocationAPIManger.shared.getLocation(longitude: coor.longitude, latitude: coor.latitude) { result in
-                                        switch result {
-                                        case.success(let location):
-                                            DispatchQueue.main.async() {
-                                                self.loadingTextLabel.isHidden = true
-                                                self.userLocationLabel.text = location
-                                                self.userLocationWeatherLabel.text = description
-                                                self.userLocationTempLabel.text = "현재 온도 : \(Int(temp))°"
-                                                self.userLocationHumidityLabel.text = "현재 습도 : \(humidity)%"
-                                                self.userLocationWeatherImage.image = image
-                                                weatherInfo.cityName = location
-                                                self.userLocationInfo = UserLocationInfo(userLocation: location, userWeatehrInfo: weatherInfo)
-                                            }
-                                        case.failure(let error):
-                                            print("Get User Location Fail",error)
-                                        }
-                                    }
-                                case .failure(let error) :
-                                    print("Download Image Failt", error)
+                    NaverLocationAPIManger.shared.getLocation(longitude: coor.longitude, latitude: coor.latitude) { result in
+                        switch result {
+                        case.success(let location):
+                            weatherInfo.cityName = location
+                            self.userLocationInfo = WeatherInfoViewModel(weatherInfo: weatherInfo)
+                            if let userLocationInfo = self.userLocationInfo {
+                                DispatchQueue.main.async() {
+                                    self.userLoactionInfoUIUpdate(weatehrInfo: userLocationInfo)
                                 }
                             }
-                            
-                    }else {
-                        print("안됨")
+                        case.failure(let error):
+                            print("Get User Location Fail",error)
+                        }
                     }
-                    
                 case .failure(let error) :
                     print("Get User WeatherInfo Fail", error)
                 }
@@ -141,7 +125,7 @@ class WeatherViewController: UIViewController {
         OnpenWeatherAPIManger.shared.getMajorWeatherInfos { result in
             switch result {
             case .success(let weatherInfos) :
-                self.weatehrInfos = weatherInfos
+                self.weatehrInfos = WeatherInfoListViewModel(weatehrInfoArray: weatherInfos)
                 DispatchQueue.main.async {
                     self.weatehrInfosCollectionView.reloadData()
                 }
@@ -165,16 +149,26 @@ class WeatherViewController: UIViewController {
         userLocationInfoStackView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(stackviewClicked)))
     }
     
+    private func userLoactionInfoUIUpdate(weatehrInfo : WeatherInfoViewModel) {
+        self.loadingTextLabel.isHidden = true
+        self.userLocationLabel.text = weatehrInfo.cityName
+        self.userLocationWeatherLabel.text = weatehrInfo.cityWeather
+        self.userLocationTempLabel.text = "현재 온도 : \(weatehrInfo.cityCurrentTemp)°"
+        self.userLocationHumidityLabel.text = "현재 습도 : \(weatehrInfo.cityHumidity)%"
+        self.userLocationWeatherImage.image = weatehrInfo.cityWeatherImage
+    }
+    
     //스택뷰 클릭 이벤트 처리
     @objc func stackviewClicked() {
+        
         guard let vc =  storyboard?.instantiateViewController(identifier: "DetailWeatherViewController") as? DetailWeatherViewController else
                { return }
         
-        if let WeatherInfo = userLocationInfo?.userWeatehrInfo {
-            
+        if let WeatherInfo = userLocationInfo {
             vc.weatherInfo = WeatherInfo
         }
         
+        //모달로 페이지 이동
         self.present(vc, animated: true)
     }
 }
@@ -222,32 +216,21 @@ extension WeatherViewController : CLLocationManagerDelegate {
 extension WeatherViewController : UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        guard let weatehrInfosNumber = weatehrInfos?.count else { return 0 }
+        guard let weatehrInfosNumber = weatehrInfos?.weatherInfos.count else { return 0 }
         
         return weatehrInfosNumber
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! WeatehrCollectionViewCell
         
         cell.backgroundColor = UIColor.white
         
-        if let cityName = weatehrInfos?[indexPath.row].cityName,
-           let cityTemp = weatehrInfos?[indexPath.row].detailWeather?.currentTemperature,
-           let cityweatherIcon = weatehrInfos?[indexPath.row].weather?[0].icon,
-           let cityHumidity = weatehrInfos?[indexPath.row].detailWeather?.humidity {
-            cell.cityNameLable.text = cityName
-            cell.cityDetailWeatherLabel.text = "\(Int(cityTemp))° / \(cityHumidity)%"
-            OnpenWeatherAPIManger.shared.downloadImage(imageIcon: cityweatherIcon) { result in
-                switch result {
-                case .success(let image) :
-                    DispatchQueue.main.async {
-                        cell.cityWeatherImage.image = image
-                    }
-                case .failure(let error) :
-                    print("Cell Image Download Fail",error)
-                }
-            }
+        if let weatherInfo = weatehrInfos?.weatherInfos[indexPath.row] {
+            cell.cityNameLable.text = weatherInfo.cityName
+            cell.cityDetailWeatherLabel.text = "\(weatherInfo.cityCurrentTemp) / \(weatherInfo.cityHumidity)%"
+            cell.cityWeatherImage.image = weatherInfo.cityWeatherImage
         }
         
         return cell
@@ -259,7 +242,9 @@ extension WeatherViewController : UICollectionViewDataSource {
 //MARK: - UICollectionViewDelegateFlowLayout
 extension WeatherViewController : UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
         let size = CGSize(width: 120, height: 120)
+        
         return size
     }
     
@@ -268,11 +253,11 @@ extension WeatherViewController : UICollectionViewDelegateFlowLayout {
 //MARK: - UICollectionViewDelegate
 extension WeatherViewController : UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
         guard let vc =  storyboard?.instantiateViewController(identifier: "DetailWeatherViewController") as? DetailWeatherViewController else
                { return }
         
-        if let selectWeatherInfo = weatehrInfos?[indexPath.row] {
-            
+        if let selectWeatherInfo = weatehrInfos?.weatherInfos[indexPath.row] {
             vc.weatherInfo = selectWeatherInfo
         }
         

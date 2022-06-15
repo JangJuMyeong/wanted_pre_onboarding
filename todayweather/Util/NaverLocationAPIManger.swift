@@ -71,9 +71,6 @@ class NaverLocationAPIManger {
                     }
                 }
             }
-            
-            
-                  
         }
         
         dataTask.resume()

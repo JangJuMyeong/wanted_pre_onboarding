@@ -9,7 +9,7 @@ import UIKit
 
 class DetailWeatherViewController: UIViewController {
     
-    var weatherInfo : WeatherInfo?
+    var weatherInfo : WeatherInfoViewModel?
     
     @IBOutlet weak var cityNameLabel: UILabel!
     @IBOutlet weak var cityWeatherLabel: UILabel!
@@ -25,37 +25,17 @@ class DetailWeatherViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let cityName = weatherInfo?.cityName,
-           let cityWeather = weatherInfo?.weather?[0].weatherDescription,
-           let cityWeatherIcon = weatherInfo?.weather?[0].icon,
-           let cityCurrentTemp = weatherInfo?.detailWeather?.currentTemperature,
-           let citySensibleTemp = weatherInfo?.detailWeather?.sensibleTemperature,
-           let cityMinTemp = weatherInfo?.detailWeather?.minTemperature,
-           let cityMaxTemp = weatherInfo?.detailWeather?.maxTemperature,
-           let cityHumidity = weatherInfo?.detailWeather?.humidity,
-           let cityWindSpeed = weatherInfo?.wind?.speed,
-           let cityPressure = weatherInfo?.detailWeather?.atmosphericPressure{
-            
-            cityNameLabel.text = cityName
-            cityWeatherLabel.text = cityWeather
-            cityCurrentTempLabel.text = "현재 기온 - \(Int(cityCurrentTemp))°"
-            citySensibleTempLabel.text = "체감 기온 - \(Int(citySensibleTemp))°"
-            cityMinTempLabel.text = "최고 기온 - \(Int(cityMinTemp))°"
-            cityMaxTempLabel.text = "최저 기온 - \(Int(cityMaxTemp))°"
-            cityHumidityLabel.text = "습도 - \(cityHumidity)%"
-            cityWindLabel.text = "풍속 - \(cityWindSpeed)m/s"
-            cityPressureLabel.text = "기압 - \(cityPressure)hPa"
-            
-            OnpenWeatherAPIManger.shared.downloadImage(imageIcon: cityWeatherIcon) { result in
-                switch result {
-                case .success(let image) :
-                    DispatchQueue.main.async {
-                        self.cityWeatherImage.image = image
-                    }
-                case .failure(let error) :
-                    print("Fail To Downalod Image DetailView", error)
-                }
-            }
+        if let weatehrInfo = weatherInfo {
+            cityNameLabel.text = weatehrInfo.cityName
+            cityWeatherLabel.text = weatehrInfo.cityWeather
+            cityCurrentTempLabel.text = "현재 기온 - " + weatehrInfo.cityCurrentTemp
+            citySensibleTempLabel.text = "체감 기온 - " + weatehrInfo.citySensibleTemp
+            cityMinTempLabel.text = "최고 기온 - " + weatehrInfo.cityMaxTemp
+            cityMaxTempLabel.text = "최저 기온 - " + weatehrInfo.cityMinTemp
+            cityHumidityLabel.text = "습도 - " + weatehrInfo.cityHumidity
+            cityWindLabel.text = "풍속 - " + weatehrInfo.cityWindSpeed
+            cityPressureLabel.text = "기압 - " + weatehrInfo.cityPressure
+            cityWeatherImage.image = weatehrInfo.cityWeatherImage
         }
     }
 }

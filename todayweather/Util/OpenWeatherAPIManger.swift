@@ -21,7 +21,7 @@ class OnpenWeatherAPIManger {
         
     }
     
-    //주요 날씨정보 가져오기
+    //주요 도시 날씨정보 가져오기
     func getMajorWeatherInfos(handler: @escaping (Result<[WeatherInfo] , Error>) -> ()) {
         
         let session = URLSession(configuration: .default)
@@ -78,17 +78,33 @@ class OnpenWeatherAPIManger {
                                 
                                 return name1 < name2
                             }
-                            handler(.success(WeatherInfos))
+                            var imageDownlaodCount = 0
+                            //날씨 정보 아이콘 이미지 다운로드
+                            for weatherInfo in WeatherInfos {
+                                if let weatherIcon = weatherInfo.weather?[0].icon {
+                                    self.downloadImage(imageIcon: weatherIcon) { result in
+                                        switch result {
+                                        case .success(let image) :
+                                            WeatherInfos[imageDownlaodCount].weatherImage = image
+                                            imageDownlaodCount += 1
+                                            //다운로드 완료
+                                            if imageDownlaodCount == self.cityIds.count {
+                                                handler(.success(WeatherInfos))
+                                            }
+                                        case .failure(let error) :
+                                            print("Fail To Download Image", error)
+                                        }
+                                    }
+                                }
+                            }
                         }
                     } catch {
                         print(error.localizedDescription)
                     }
                 }
             }
-            dataTask.resume()
-            
+            dataTask.resume()   
         }
-        
     }
     
     //유저 위치 날씨 정보 가져오기
@@ -125,8 +141,19 @@ class OnpenWeatherAPIManger {
             if let safeData = data {
                 do {
                     //Json 데이터 Decode
-                    let weatherInfo = try JSONDecoder().decode(WeatherInfo.self, from: safeData)
-                    handler(.success(weatherInfo))
+                    var weatherInfo = try JSONDecoder().decode(WeatherInfo.self, from: safeData)
+                    
+                    if let weatherIcon = weatherInfo.weather?[0].icon {
+                        self.downloadImage(imageIcon: weatherIcon) { result in
+                            switch result {
+                            case .success(let image) :
+                                weatherInfo.weatherImage = image
+                                handler(.success(weatherInfo))
+                            case .failure(let error) :
+                                print("Fail To Download User image", error)
+                            }
+                        }
+                    }
                 } catch {
                     print(error.localizedDescription)
                 }

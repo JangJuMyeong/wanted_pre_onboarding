@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B765E6382857789B0003363A /* UserLocationInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B765E6372857789B0003363A /* UserLocationInfo.swift */; };
 		B765E63A285779CC0003363A /* DetailWeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B765E639285779CC0003363A /* DetailWeatherViewController.swift */; };
+		B769353F2859B95700F3DE4D /* WeatherInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B769353E2859B95700F3DE4D /* WeatherInfoViewModel.swift */; };
 		B76968C72856235F0079A625 /* NaverLocationAPIManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = B76968C62856235F0079A625 /* NaverLocationAPIManger.swift */; };
 		B78956B82854CD43002B699D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78956B72854CD43002B699D /* AppDelegate.swift */; };
 		B78956BA2854CD43002B699D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78956B92854CD43002B699D /* SceneDelegate.swift */; };
@@ -23,8 +23,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		B765E6372857789B0003363A /* UserLocationInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLocationInfo.swift; sourceTree = "<group>"; };
 		B765E639285779CC0003363A /* DetailWeatherViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailWeatherViewController.swift; sourceTree = "<group>"; };
+		B769353E2859B95700F3DE4D /* WeatherInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherInfoViewModel.swift; sourceTree = "<group>"; };
 		B76968C62856235F0079A625 /* NaverLocationAPIManger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverLocationAPIManger.swift; sourceTree = "<group>"; };
 		B78956B42854CD43002B699D /* todayweather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = todayweather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B78956B72854CD43002B699D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -51,6 +51,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B769353D2859B94600F3DE4D /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				B769353E2859B95700F3DE4D /* WeatherInfoViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		B78956AB2854CD43002B699D = {
 			isa = PBXGroup;
 			children = (
@@ -70,6 +78,7 @@
 		B78956B62854CD43002B699D /* todayweather */ = {
 			isa = PBXGroup;
 			children = (
+				B769353D2859B94600F3DE4D /* ViewModel */,
 				B7B4F1B12858C29100EFB132 /* Cell */,
 				B796133028560BAC001DF4D8 /* Model */,
 				B796132F28560B9E001DF4D8 /* Util */,
@@ -99,7 +108,6 @@
 			isa = PBXGroup;
 			children = (
 				B7FE31312854E0A700DB7E4E /* WeatherInfo.swift */,
-				B765E6372857789B0003363A /* UserLocationInfo.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -184,13 +192,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				B78956BC2854CD43002B699D /* WeatherViewController.swift in Sources */,
+				B769353F2859B95700F3DE4D /* WeatherInfoViewModel.swift in Sources */,
 				B7FE31322854E0A700DB7E4E /* WeatherInfo.swift in Sources */,
 				B78956B82854CD43002B699D /* AppDelegate.swift in Sources */,
 				B765E63A285779CC0003363A /* DetailWeatherViewController.swift in Sources */,
 				B76968C72856235F0079A625 /* NaverLocationAPIManger.swift in Sources */,
 				B7B4F1B32858C2BD00EFB132 /* WeatehrCollectionViewCell.swift in Sources */,
 				B78956BA2854CD43002B699D /* SceneDelegate.swift in Sources */,
-				B765E6382857789B0003363A /* UserLocationInfo.swift in Sources */,
 				B796132E2855F0DE001DF4D8 /* Cache.swift in Sources */,
 				B79AC41E2855A0210015C3F8 /* OpenWeatherAPIManger.swift in Sources */,
 			);
