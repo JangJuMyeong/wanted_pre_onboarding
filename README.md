@@ -44,11 +44,21 @@ Open Weather의 API를 사용하여 사용자의 날시 정보 또한 가져올�
 
 이를 순서대로 하기 위하여 escaping closure를 사용하여 Call back 받은 이후 차례대로 작업을 수행하도록 하였습니다. 
 
+## App Icon 및 런치 스크린 설정
+
+![KakaoTalk_Photo_2022-06-15-22-35-30 002](https://user-images.githubusercontent.com/66667091/173840608-71e9cb15-7fea-4894-b6e7-f534ce443010.jpeg)
+
+프리온보딩 iOS 심볼 이미지를 사용하여 App Icon과 Launch Screen을 꾸며 보았습니다.
+
 ## 로딩 페이지
+
+![KakaoTalk_Photo_2022-06-15-22-35-30 001](https://user-images.githubusercontent.com/66667091/173840882-447ed893-2ae5-4fb0-bad4-ada8c4046bbc.jpeg)
 
 API통신이 완료되고 이미지 다운로드가 완료되어 모든 데이터가 바인딩된 이후 로딩페이지가 사라지도록 하였습니다.
 
 ## 메인페이지
+
+![KakaoTalk_Photo_2022-06-15-22-35-30 004](https://user-images.githubusercontent.com/66667091/173840991-d96e116f-bd60-4e99-acfb-b633e6781608.jpeg)
 
 상단에 최근 조회한 시간을 확인할수 있으며 재조회 버튼을 통해 날시 정보를 최신화 할수 있습니다.
 
@@ -59,6 +69,8 @@ API통신이 완료되고 이미지 다운로드가 완료되어 모든 데이�
 Cell 클릭시 날씨 상세 정보 페이지로 모달이 나타나게 됩니다.
 
 ## 날씨 상세 페이지 이동
+
+![KakaoTalk_Photo_2022-06-15-22-35-30 003](https://user-images.githubusercontent.com/66667091/173840746-ef40d850-0c90-497b-a324-aa491b92fa3c.jpeg)
 
 NavgationController보다는 페이지가 2개뿐이기 때문에 사용자가 모달형식으로 빠르게 확인하고 다시 메인 화면으로 돌아올수 있도록 하기 위해 모달을 사용하여 페이지 이동을 하였습니다.
 
