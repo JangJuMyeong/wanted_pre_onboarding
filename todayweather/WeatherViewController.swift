@@ -153,8 +153,8 @@ class WeatherViewController: UIViewController {
         self.loadingTextLabel.isHidden = true
         self.userLocationLabel.text = weatehrInfo.cityName
         self.userLocationWeatherLabel.text = weatehrInfo.cityWeather
-        self.userLocationTempLabel.text = "현재 온도 : \(weatehrInfo.cityCurrentTemp)°"
-        self.userLocationHumidityLabel.text = "현재 습도 : \(weatehrInfo.cityHumidity)%"
+        self.userLocationTempLabel.text = "현재 온도 : \(weatehrInfo.cityCurrentTemp)"
+        self.userLocationHumidityLabel.text = "현재 습도 : \(weatehrInfo.cityHumidity)"
         self.userLocationWeatherImage.image = weatehrInfo.cityWeatherImage
     }
     
@@ -229,7 +229,7 @@ extension WeatherViewController : UICollectionViewDataSource {
         
         if let weatherInfo = weatehrInfos?.weatherInfos[indexPath.row] {
             cell.cityNameLable.text = weatherInfo.cityName
-            cell.cityDetailWeatherLabel.text = "\(weatherInfo.cityCurrentTemp) / \(weatherInfo.cityHumidity)%"
+            cell.cityDetailWeatherLabel.text = "\(weatherInfo.cityCurrentTemp) / \(weatherInfo.cityHumidity)"
             cell.cityWeatherImage.image = weatherInfo.cityWeatherImage
         }
         
