@@ -82,7 +82,7 @@ class WeatherViewController: UIViewController {
         let layout = weatehrInfosCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
         layout.scrollDirection = .horizontal
         
-        lastGetWeahterTimeLabel.text = "최근 조회 시간 - \(getCurrentTime())"
+        
         userLocationLabel.text = ""
         userLocationWeatherLabel.text = ""
         userLocationTempLabel.text = ""
@@ -144,6 +144,7 @@ class WeatherViewController: UIViewController {
                 self.weatehrInfos = WeatherInfoListViewModel(weatehrInfoArray: weatherInfos)
                 DispatchQueue.main.async {
                     self.weatehrInfosCollectionView.reloadData()
+                    self.lastGetWeahterTimeLabel.text = "최근 조회 시간 - \(self.getCurrentTime())"
                     self.loadingView.isLoading = false
                 }
             case .failure(let weatherInfos):
@@ -154,11 +155,9 @@ class WeatherViewController: UIViewController {
     
     //날씨 정보 재조회
     private func refreshWeatherInfo() {
+        self.loadingView.isLoading = true
         getUserLocationWeatherInfo()
         getMajorWeatherInfos()
-        DispatchQueue.main.async {
-            self.lastGetWeahterTimeLabel.text = "최근 조회 시간 - \(self.getCurrentTime())"
-        }
     }
     
     //스택뷰 클릭 이벤트 등록
